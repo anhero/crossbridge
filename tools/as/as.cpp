@@ -418,8 +418,8 @@ int main(int argc, char **argv)
   jargs.push_back("-md");
   // turn on parallel generation of method bodies feature
   jargs.push_back("-parallel");
-  // turn on the inlining of functions
-  jargs.push_back("-inline");
+  // turn on the inlining of functions (TODO: SWCs cannot use the Inline MD?)
+  // jargs.push_back("-inline");
   // future abc (?)
   jargs.push_back("-abcfuture");
   // use the AS3 class based object model

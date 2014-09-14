@@ -107,13 +107,14 @@ internal class ThunkMaker
 //--------------------------------------------------------------------------
 
 /**
-* Contains convenience functions for reading and writting to domainMemory; also manages any flascc-specific global state (for example, the VFS and Posix interface implementations.)
+* Contains convenience functions for reading and writting to domainMemory; also manages any CrossBridge-specific global state (for example, the VFS and Posix interface implementations.)
 */
 public class CModule
 {
   /**
   * Returns the ByteArray object using as RAM
   */
+  [Inline]
   public static function get ram():ByteArray
   {
     return C_Run.ram;
@@ -136,7 +137,7 @@ public class CModule
 
   /**
   * Returns true if the current environment supports
-  * use of ActionScript Workers with flascc content
+  * use of ActionScript Workers with CrossBridge content
   */
   public static function get canUseWorkers():Boolean
   {
@@ -618,7 +619,7 @@ public class CModule
   /**
   * Write an actionscript string as UTF8 data into domainMemory
   * @param ptr The location in domainMemory where the string will be written. You must ensure that this
-  *            points to a buffer in the flascc world that has enough space to hold the string
+  *            points to a buffer in the CrossBridge world that has enough space to hold the string
   *            data or this method will overwrite other data within your program. Consider using
   *            <code>mallocString</code> instead as it will allocate the correct amount of space.
   * @return The number of bytes written
@@ -1354,12 +1355,12 @@ public class CModule
 
     /**
     * Set the current kernel implementation
-    * @param kernel The object satisfying IKernel to act as the current flascc Kernel
+    * @param kernel The object satisfying IKernel to act as the current CrossBridge Kernel
     */
     public static function set kernel(kernel:IKernel):void {}
 
     /**
-    * A reference to the current rootSprite so that flascc code has an easy way of getting to the stage regardless of what preloaders might be employed.
+    * A reference to the current rootSprite so that CrossBridge code has an easy way of getting to the stage regardless of what preloaders might be employed.
     */
     public static var rootSprite:Sprite;
   }

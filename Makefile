@@ -231,9 +231,8 @@ $?ASC=$(call nativepath,$(SRCROOT)/$(DEPENDENCY_AVMPLUS)/utils/asc.jar)
 # 3. future abc
 # 4. use the AS3 class based object model for greater performance and better error reporting
 # 5. turn on 'parallel generation of method bodies' feature for Alchemy
-# 6. turn on the inlining of functions
-# 7. make the packages in the abc file available for import
-$?ASC2=java -jar $(call nativepath,$(SRCROOT)/tools/lib-air/asc2.jar) -merge -md -abcfuture -AS3 -parallel -inline \
+# 6. make the packages in the abc file available for import
+$?ASC2=java -jar $(call nativepath,$(SRCROOT)/tools/lib-air/asc2.jar) -merge -md -abcfuture -AS3 -parallel \
 		-import $(call nativepath,$(SRCROOT)/$(DEPENDENCY_AVMPLUS)/generated/builtin.abc) \
 		-import $(call nativepath,$(SRCROOT)/$(DEPENDENCY_AVMPLUS)/generated/shell_toplevel.abc)
 # ASC2 configuration definitions
@@ -355,8 +354,6 @@ all_dev:
 # Development target
 all_dev51:
 	@$(SDK_MAKE) abclibs_compile
-	#@cd samples/05_SWC && $(MAKE)
-	@$(SDK_MAKE) test_hello_cpp
 	@$(SDK_MAKE) test_hello_c
 
 # Clean build outputs

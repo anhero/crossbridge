@@ -522,11 +522,12 @@ public:
         std::vector<std::string> args;
         for(unsigned int i=0; i<JVMOpts.size(); i++) args.push_back(JVMOpts[i]);
         
-        if(UseInlineAsm) {
-            args.push_back("-classpath");
-            args.push_back(nativepath(sdk + "/usr/lib/asc.jar"));
-            args.push_back("macromedia.asc.embedding.ScriptCompiler");
-        } else {
+        // Deprecated InlineAsm and ASC1
+        //if(UseInlineAsm) {
+        //    args.push_back("-classpath");
+        //    args.push_back(nativepath(sdk + "/usr/lib/asc.jar"));
+        //    args.push_back("macromedia.asc.embedding.ScriptCompiler");
+        //} else {
             args.push_back("-jar");
             args.push_back(nativepath(sdk + "/usr/lib/asc2.jar"));
             // merge the compiled source into a single output
@@ -534,11 +535,11 @@ public:
             // emit metadata information into the bytecode
             args.push_back("-md");
             // turn on the inlining of functions
-            args.push_back("-inline");
+            // args.push_back("-inline"); // TODO: SWCs cannot use the Inline MD?
             // turn on parallel generation of method bodies feature
             //if(FalconParallel)
                 args.push_back("-parallel");
-        }
+        //}
         // future ABC
         args.push_back("-abcfuture");
         // use the AS3 class based object model
