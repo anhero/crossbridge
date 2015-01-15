@@ -16,6 +16,12 @@ $build_options.ASC2EXTRAOPTS << '-removedeadcode'
 
 $build_options.PYTHON = 'python'
 
+$build_options.JAVA = 'java'
+$build_options.JAVAC = 'javac'
+$build_options.JAVACOPTS << '-source 1.6'
+$build_options.JAVACOPTS << '-target 1.6'
+$build_options.JAVACOPTS << '-Xlint:-options'
+
 
 
 $build_options.RSYNC ='rsync -az --no-p --no-g --chmod=ugo=rwX -l'
@@ -31,7 +37,7 @@ else
 	raise "Adobe AIR SDK and Apache Flex SDK are missing - setting the 'AIR_HOME' or 'FLEX_HOME' environment variable is essential to build the CrossBridge SDK"
 end
 	
-uname = #{`uname -s`.rstrip}
+uname = "#{`uname -s`.rstrip}"
 cc = 'gcc'
 if uname.include? 'CYGWIN'	then
 	$build_options.CC = 'gcc'
@@ -75,9 +81,15 @@ build'libdesc/uname.rb'
 build'libdesc/noenv.rb'
 build'libdesc/avm2-as.rb'
 
-# BUILDORDER=    
-# BUILDORDER+= avm2-as alctool alcdb alcwig
-# BUILDORDER+= llvm binutils plugins gcc bmake 
+
+build'libdesc/alctool.rb'
+build 'libdesc/alcdb.rb'
+build 'libdesc/alcwig.rb'
+
+
+build 'libdesc/llvm.rb'
+
+# BUILDORDER+= llvm binutils plugins gcc bmake
 # BUILDORDER+= csu libc libthr libm libBlocksRuntime
 # BUILDORDER+= gcclibs as3wig abcflashpp abcstdlibs_more
 # BUILDORDER+= sdkcleanup tr trd swig genfs gdb pkgconfig libtool   
