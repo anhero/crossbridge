@@ -45,7 +45,7 @@ if uname.include? 'CYGWIN'	then
 	$build_options.EXEEXT = '.exe'
 	$build_options.SOEXT = '.dll'
 elsif uname.include? 'Darwin'	then
-	library.options.CXXFLAGS << "-stdlib=libstdc++"
+	$build_options.CXXFLAGS << "-stdlib=libstdc++"
 	# $build_options.EXEEXT = ''
 	$build_options.SOEXT = '.dylib'
 else
