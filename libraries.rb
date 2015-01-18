@@ -36,23 +36,20 @@ elsif not ENV['FLEX_HOME'].nil? then
 else
 	raise "Adobe AIR SDK and Apache Flex SDK are missing - setting the 'AIR_HOME' or 'FLEX_HOME' environment variable is essential to build the CrossBridge SDK"
 end
-	
+
+$build_options.CC = 'gcc'
+$build_options.CXX = 'g++'
+
 uname = "#{`uname -s`.rstrip}"
-cc = 'gcc'
 if uname.include? 'CYGWIN'	then
-	$build_options.CC = 'gcc'
-	$build_options.CXX = 'g++'
 	$build_options.EXEEXT = '.exe'
 	$build_options.SOEXT = '.dll'
 elsif uname.include? 'Darwin'	then
-	$build_options.CC = 'gcc'
-	$build_options.CXX = 'g++'
-	$build_options.EXEEXT = ''
+	library.options.CXXFLAGS << "-stdlib=libstdc++"
+	# $build_options.EXEEXT = ''
 	$build_options.SOEXT = '.dylib'
 else
-	$build_options.CC = 'gcc'
-	$build_options.CXX = 'g++'
-	$build_options.EXEEXT = ''
+	# $build_options.EXEEXT = ''
 	$build_options.SOEXT = '.so'
 end
 
