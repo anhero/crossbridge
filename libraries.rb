@@ -1,3 +1,9 @@
+$build_options.FLASCC_VERSION_MAJOR = 15
+$build_options.FLASCC_VERSION_MINOR = 0
+$build_options.FLASCC_VERSION_PATCH = 0
+$build_options.FLASCC_VERSION_BUILD = 3
+$build_options.SDKNAME = "CrossBridge_#{$build_options.FLASCC_VERSION_MAJOR}.#{$build_options.FLASCC_VERSION_MINOR}.#{$build_options.FLASCC_VERSION_PATCH}.#{$build_options.FLASCC_VERSION_BUILD}"
+$build_options.BUILD_VER_DEFS = "-DFLASCC_VERSION_MAJOR=#{$build_options.FLASCC_VERSION_MAJOR} -DFLASCC_VERSION_MINOR=#{$build_options.FLASCC_VERSION_MINOR} -DFLASCC_VERSION_PATCH=#{$build_options.FLASCC_VERSION_PATCH} -DFLASCC_VERSION_BUILD=#{$build_options.FLASCC_VERSION_BUILD}"
 
 $build_options.ASC2_compiler = "java -jar #{$global_state.project_dir}/tools/lib-air/asc2.jar -merge -md -abcfuture -AS3 -parallel -inline"
 $build_options.ASC2_builtin << "-import #{$global_state.work_dir}/avmplus/generated/builtin.abc"
@@ -40,18 +46,35 @@ end
 $build_options.CC = 'gcc'
 $build_options.CXX = 'g++'
 
+
+$build_options.TRIPLE='avm2-unknown-freebsd8'
+
+
 uname = "#{`uname -s`.rstrip}"
 if uname.include? 'CYGWIN'	then
 	$build_options.EXEEXT = '.exe'
 	$build_options.SOEXT = '.dll'
+	$build_options.HOST_TRIPLE='i686-pc-cygwin'
+	$build_options.BUILD_TRIPLE='i686-pc-cygwin'
+
+
 elsif uname.include? 'Darwin'	then
+	$build_options.CFLAGS << "-stdlib=libstdc++"
 	$build_options.CXXFLAGS << "-stdlib=libstdc++"
 	# $build_options.EXEEXT = ''
 	$build_options.SOEXT = '.dylib'
+	$build_options.HOST_TRIPLE='x86_64-apple-darwin10'
+	$build_options.BUILD_TRIPLE='x86_64-apple-darwin10'
+
 else
 	# $build_options.EXEEXT = ''
 	$build_options.SOEXT = '.so'
+	$build_options.HOST_TRIPLE='x86_64-unknown-linux'
+	$build_options.BUILD_TRIPLE='x86_64-unknown-linux-gnu'
+
 end
+$build_options.CFLAGS << '-O4'
+$build_options.CXXFLAGS << '-O4'
 
 
 
@@ -85,8 +108,14 @@ build 'libdesc/alcwig.rb'
 
 
 build 'libdesc/llvm.rb'
+build 'libdesc/binutils.rb'
+build 'libdesc/binutils.rb'
+build 'libdesc/makeswf.rb'
+build 'libdesc/multiplug.rb'
+build 'libdesc/llvm-gcc.rb'
 
-# BUILDORDER+= llvm binutils plugins gcc bmake
+
+# BUILDORDER+=   gcc bmake
 # BUILDORDER+= csu libc libthr libm libBlocksRuntime
 # BUILDORDER+= gcclibs as3wig abcflashpp abcstdlibs_more
 # BUILDORDER+= sdkcleanup tr trd swig genfs gdb pkgconfig libtool   
@@ -99,8 +128,8 @@ build 'libdesc/llvm.rb'
 
 
 # EXTRALIBORDER= zlib libbzip libxz libeigen dmalloc libffi libgmp libiconv libxml2 libvgl libjpeg libpng libgif libtiff libwebp
-# EXTRALIBORDER+= libogg libvorbis libflac libsndfile libsdl libfreetype libsdl_ttf libsdl_mixer libsdl_image gls3d freeglut libphysfs libncurses 
-# EXTRALIBORDER+= libopenssl libmcrypt libmhash libnettle libbeecrypt  
+# EXTRALIBORDER+= libogg libvorbis liblibmcryptflac libsndfile libsdl libfreetype libsdl_ttf libsdl_mixer libsdl_image gls3d freeglut libphysfs libncurses
+# EXTRALIBORDER+= libopenssl  libmhash libnettle libbeecrypt
 
 # TESTORDER= test_hello_c test_hello_cpp test_pthreads_c_shell test_pthreads_cpp_swf test_posix 
 # TESTORDER+= test_sjlj test_sjlj_opt test_eh test_eh_opt test_as3interop test_symbols  
