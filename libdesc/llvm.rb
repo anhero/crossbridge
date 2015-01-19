@@ -11,25 +11,27 @@ library.preparer = make_step do
 
 	@library.options.build_dir = @library.work_dir
 	@library.options.CMAKE_DIR = "#{@library.build_subdir}"
+
+	#TODO Do not copy avm_env, remove the include dir from the cmakelist.txt file and use a -I CXXFLAGS instead
 	FileUtils.cp_r "#{$global_state.project_dir}/avm2_env", "#{@library.work_dir}"
 end
 
 
 library.deploy = make_step do
-	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llc#{$build_options.EXEEXT}", "#{$build_options.install_dir}/bin/"
-	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-ar#{$build_options.EXEEXT}", "#{$build_options.install_dir}/bin/"
-	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-as#{$build_options.EXEEXT}", "#{$build_options.install_dir}/bin/"
-	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-diff#{$build_options.EXEEXT}", "#{$build_options.install_dir}/bin/"
-	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-dis#{$build_options.EXEEXT}", "#{$build_options.install_dir}/bin/"
-	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-extract#{$build_options.EXEEXT}", "#{$build_options.install_dir}/bin/"
-	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-ld#{$build_options.EXEEXT}", "#{$build_options.install_dir}/bin/"
-	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-link#{$build_options.EXEEXT}", "#{$build_options.install_dir}/bin/"
-	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-nm#{$build_options.EXEEXT}", "#{$build_options.install_dir}/bin/"
-	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-ranlib#{$build_options.EXEEXT}", "#{$build_options.install_dir}/bin/"
-	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/opt#{$build_options.EXEEXT}", "#{$build_options.install_dir}/bin/"
+	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llc#{@library.options.EXEEXT}", "#{$build_options.install_dir}/bin/"
+	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-ar#{@library.options.EXEEXT}", "#{$build_options.install_dir}/bin/"
+	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-as#{@library.options.EXEEXT}", "#{$build_options.install_dir}/bin/"
+	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-diff#{@library.options.EXEEXT}", "#{$build_options.install_dir}/bin/"
+	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-dis#{@library.options.EXEEXT}", "#{$build_options.install_dir}/bin/"
+	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-extract#{@library.options.EXEEXT}", "#{$build_options.install_dir}/bin/"
+	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-ld#{@library.options.EXEEXT}", "#{$build_options.install_dir}/bin/"
+	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-link#{@library.options.EXEEXT}", "#{$build_options.install_dir}/bin/"
+	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-nm#{@library.options.EXEEXT}", "#{$build_options.install_dir}/bin/"
+	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/llvm-ranlib#{@library.options.EXEEXT}", "#{$build_options.install_dir}/bin/"
+	FileUtils.cp_r "#{$global_state.work_dir}/llvm-install/bin/opt#{@library.options.EXEEXT}", "#{$build_options.install_dir}/bin/"
 	FileUtils.cp_r Dir["#{$global_state.work_dir}/llvm-install/lib/LLVMgold.*"], "#{$build_options.install_dir}/lib/"
 
-	FileUtils.cp_r "#{@library.work_dir}/bin/fpcmp#{$build_options.EXEEXT}", "#{$global_state.work_dir}/extra/"
+	FileUtils.cp_r "#{@library.work_dir}/bin/fpcmp#{@library.options.EXEEXT}", "#{$global_state.work_dir}/extra/"
 
 end
 
